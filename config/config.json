@@ -1,9 +1,0 @@
-{
-    "contentClass": "content",
-    "navigationClass": "menu",
-    "menu": [
-        {"name": "Home", "file": "./site/home.htm"},
-        {"name": "About", "file": "./site/about.htm"},
-        {"name": "Dev", "file": "./site/dev.htm"}
-    ]
-}

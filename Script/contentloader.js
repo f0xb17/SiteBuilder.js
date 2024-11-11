@@ -1,62 +1,35 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-    /**
-     * This method returns the name for any HTML Tag, that was entered in the Config file. 
-     * @param {*} name The name corresponds to the key in the JSON file. 
-     *                  Of course, this usually refers to the name of the HTML tag 
-     *                  that was previously defined in the HTML file. 
-     * @returns Returns the value that replaces the key in the JSON file. Corresponds to the name of the HTML tag. 
-     */
-    async function targetClass(name) {
-        try {
-            if(!await getHTMLClass(name)) {
-                throw new Errror('Key not found? Maybe Typo?')
-            }
-            return await getHTMLClass(name)
-        } catch(err) {
-            console.error('Error while searching key: ', err)
-        }
-    }
+    const router = new Router()
+    
+    await router.createRoutes()
+    router.handleRedirect()
 
-    const contentTarget = document.querySelector(`.${await targetClass('contentClass')}`)
-    const navigationTarget = document.querySelector(`.${await targetClass('navigationClass')}`)
+    // Auto redirect to root if path is empty or index.htm
+    const path = window.location.pathname;
+    if (path === '/' || path == '/index.htm') {
+        router.navigate('/')
+    }
     
     /**
-     * The function is intended to remove all HTML tags in an input so that no cross-site scripting can be carried out. 
-     * @param {*} unsafe An input that may contain HTML tags. <
-     * @returns Rhe cleaned output, without HTML tags. 
+     * Adds an event listener to each anchor element (<a>) on the page. 
      */
-    function sanitize(unsafe) {
-        const doc = new DOMParser().parseFromString(unsafe, 'text/html')
-        return doc.body.textContent || ''
-    }
+    document.querySelectorAll('a').forEach(anchor => {
+        /**
+         * Handles the click event for an achor element.
+         */
+        anchor.addEventListener('click', (event) => {
+            // Prevent the default behavior for that element!
+            event.preventDefault()
+            router.navigate(anchor.getAttribute('href'))
+        })
+    })
 
     /**
-     * This method loads the content of an HTML file and replaces the original content in the target div with the content of the file. 
-     * @param {*} file This is the file whose content is to be loaded.
+     * Adds an event listener for the 'popstate' event.
      */
-    async function loadContentFromFile(file) {
-        try {
-            const response = await fetch(file)
-            if(!response.ok) {
-                throw new Error('Network response failed!')
-            }
-            const html = await response.text()
-            contentTarget.innerHTML = html
-        } catch(err) {
-            console.error('Fetch ended with an ERROR: ', err)
-        }
-    }
-
-    /**
-     * This method searches for the corresponding file in the folder using the parameter passed in the link. 
-     */
-    async function getParameterFromLink() {
-        const urlParams = new URLSearchParams(window.location.search)
-        const entryPoint = sanitize(urlParams.get('page'))
-
-        await loadContentFromFile(`./site/${entryPoint}.htm`)
-    }
-
-    await getParameterFromLink()
+    window.addEventListener('popstate', () => {
+        // Calls the router's navigate method with the current path to update the view.
+        router.navigate(window.location.pathname)
+    })
 })

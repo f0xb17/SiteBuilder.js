@@ -1,13 +1,13 @@
-const pathToConfig = './../config/config.json'
+const pathToConfig = './../Config/config.json'
 
 /**
  * This method can read the content of a JSON file. 
  * @param {*} file Path to the JSON file
  * @returns The contents of a JSON file
  */
-async function loadJSON(file) {
+async function loadJSON() {
     try {
-        const response = await fetch(file)
+        const response = await fetch(pathToConfig)
         if(!response.ok) {
             throw new Error('Response ended with status: NOT OK!')
         }
@@ -23,7 +23,7 @@ async function loadJSON(file) {
  * @param {*} key Represents the key of a JSON file
  * @returns Returns the value of the key.
  */
-async function getHTMLClass(key) {
+async function getValueFromKey(key) {
     try {
         const data = await loadJSON(pathToConfig)
         if(!data) {

@@ -1,0 +1,9 @@
+{
+    "content": "content",
+    "navigation": "navigation",
+    "routes": [
+        {"entryPoint": "/", "name": "Home", "file": "./Site/home.htm"},
+        {"entryPoint": "/about", "name": "About", "file": "./Site/about.htm"},
+        {"entryPoint": "/dev", "name": "Dev", "file": "./Site/dev.htm"}
+    ]
+}
