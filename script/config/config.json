@@ -1,0 +1,34 @@
+{
+  "Modules": {
+    "Header": {
+      "visible": true,
+      "id": "header"
+    },
+    "Navigation": {
+      "visible": true,
+      "id": "nav"
+    },
+    "Content": {
+      "visible": true,
+      "id": "main"
+    },
+    "Footer": {
+      "visible": true,
+      "id": "footer"
+    }
+  },
+  "Routes": {
+    "Home": {
+      "route": "/",
+      "content": "./site/pages/home"
+    },
+    "About": {
+      "route": "/about",
+      "content": "./site/pages/about"
+    },
+    "Contact": {
+      "route": "/contact",
+      "content": "./site/pages/contact"
+    }
+  }
+}
